@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Counter Test</title>
+</head>
+<body>
+
+
+
+<div class="blk_counter">
+<div class="blk_counter-wrapper">
+<div class="l_counter l_counter-red">
+<a href="#" id="redBoat">Red Boat</a>
+<span id="redCount"></span>
+</div>
+<div class="l_counter l_counter-white">
+<a href="#" id="whiteBoat">White Boat</a>
+<span id="whiteCount"></span>
+</div>
+<div class="l_counter l_counter-blue">
+<a href="#" id="blueBoat">Blue Boat</a>
+<span id="blueCount"></span>
+</div>
+</div>
+</div>
+
+</body>
+</html>
+
+<script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
+
+<script>
+
+// jQuery to update counter when button is clicked
+$('#redBoat').click(function(event) {
+  event.preventDefault();
+  var redirectUrl = $(this).attr('href');
+  $.ajax({
+    url: "downloads.php",
+    success: function(response) {
+      if (response = 'success') {
+        // The counter file has been updated in the background, but we should update the results on screen to tell the user
+        var redCount = $('#redCount').html();
+        $('#redCount').html(parseFloat(redCount) + 1);
+        
+        // Then redirect so that file can download
+        window.location.href = redirectUrl;
+      }
+    }
+  });
+  return true;
+});
+
+// jQuery to update counter when button is clicked
+$('#whiteBoat').click(function(event) {
+  event.preventDefault();
+  var redirectUrl = $(this).attr('href');
+  $.ajax({
+    url: "downloads.php",
+    success: function(response) {
+      if (response = 'success') {
+        // The counter file has been updated in the background, but we should update the results on screen to tell the user
+        var whiteCount = $('#whiteCount').html();
+        $('#whiteCount').html(parseFloat(whiteCount) + 1);
+        
+        // Then redirect so that file can download
+        window.location.href = redirectUrl;
+      }
+    }
+  });
+  return true;
+});
+
+// jQuery to get the current count on page load
+$.ajax({
+  url: "get-downloads.php",
+  success: function(data) {
+    var data = JSON.stringify(data, null, 4);
+    var data = $.parseJSON(data);
+
+    $('#redCount').html(data.redCount);
+    $('#whiteCount').html(data.whiteCount);
+    $('#blueCount').html(data.blueCount);
+  }
+});
+
+</script>
